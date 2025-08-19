@@ -38,9 +38,6 @@ namespace IDistributedCacheRedisApp.Web.Controllers
 
             return View();
         }
-
-
-
         public IActionResult Show() 
         {
             // rediste string okuma
@@ -56,8 +53,6 @@ namespace IDistributedCacheRedisApp.Web.Controllers
 
             return View();
         }
-
-
         public IActionResult Remove()
         {
             // rediste string silme
@@ -65,6 +60,26 @@ namespace IDistributedCacheRedisApp.Web.Controllers
             
             
             return View();
+        }
+
+
+        public IActionResult ImageCache() 
+        {
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/Images/logo.png");
+
+            byte[] imageByte = System.IO.File.ReadAllBytes(path);
+
+            _distributedCache.Set("resim" , imageByte);
+
+            return View();
+        }
+
+
+        public IActionResult ImageUrl() 
+        {
+            byte[]? resimByte = _distributedCache.Get("resim");
+            return File(resimByte,"image/png");
         }
 
     }
